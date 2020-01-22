@@ -17,8 +17,9 @@ class BaseSpider(scrapy.Spider):
     DETAIL_FIELD_LIST = None
     LIMIT = 100
 
-    def __init__(self, incremental='N', api_key=None, filters=None, **kwargs):
+    def __init__(self, incremental='N', api_key=None, filters=None, skip_existing='N', **kwargs):
         self.logger.info("incremental: " + incremental)
+        self.logger.info("skip_existing: " + skip_existing)
         if filters is None:
             filters = {}
         if not self.LIST_URL_PATTERN:
@@ -29,6 +30,7 @@ class BaseSpider(scrapy.Spider):
         self.api_key = api_key
         self.filters = filters
         self.incremental = incremental
+        self.skip_existing = skip_existing
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
@@ -82,10 +84,25 @@ class BaseSpider(scrapy.Spider):
         # Parsing json
         json_res = json.loads(response.body)
 
+        mongo_connection = Connect.get_connection(self.settings.get("MONGO_URL"))
+        mongo_db = mongo_connection.get_default_database()
+        collection = mongo_db[self.name]
+
         # Follow to detail pages
         for entry in json_res.get("results", []):
-            detail_url = self.construct_detail_url(entry["api_detail_url"])
-            yield scrapy.Request(url=detail_url, callback=self.parse_detail)
+            if self.skip_existing == 'N' or collection.count_documents({"id": int(entry["id"])}) == 0:
+                detail_url = self.construct_detail_url(entry["api_detail_url"])
+                yield scrapy.Request(url=detail_url, callback=self.parse_detail)
+            else:
+                self.logger.info("Skip existing: {0}".format(entry["api_detail_url"]))
+                yield {
+                    "id": entry["id"],
+                    "api_detail_url": entry["api_detail_url"],
+                    "name": entry.get("name"),
+                    "skip": True
+                }
+
+        mongo_connection.close()
 
         # Follow to next list page
         offset = json_res["offset"]

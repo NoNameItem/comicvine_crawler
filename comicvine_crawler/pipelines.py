@@ -21,5 +21,9 @@ class MongoPipeline(object):
         self._mongo_client.close()
 
     def process_item(self, item, spider):
-        self._mongo_collection.replace_one({"id": item["id"]}, dict(item), upsert=True)
-        return {"id": item["id"], "api_detail_url": item["api_detail_url"], "crawl_date": item["crawl_date"]}
+        if not item.get("skip"):
+            self._mongo_collection.replace_one({"id": item["id"]}, dict(item), upsert=True)
+            return {"id": item["id"], "api_detail_url": item["api_detail_url"], "crawl_date": item["crawl_date"],
+                    "name": item.get("name")}
+        else:
+            return item
