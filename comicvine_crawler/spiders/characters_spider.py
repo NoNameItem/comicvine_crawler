@@ -16,4 +16,4 @@ class CharactersSpider(BaseSpider):
                        "limit={limit}&" \
                        "api_key={api_key}"
     name = "comicvine_characters"
-    DETAIL_FIELD_LIST = "id,api_detail_url,site_detail_url,name,aliases,deck,description,image,first_appeared_in_issue,real_name,gender,birth,origin,character_friends,teams,team_enemies,team_friends,publisher,creators,powers"
+    DETAIL_FIELD_LIST = "id,api_detail_url,site_detail_url,name,aliases,deck,description,image,first_appeared_in_issue,real_name,gender,birth,origin,character_friends,character_enemies,teams,team_enemies,team_friends,publisher,creators,powers"

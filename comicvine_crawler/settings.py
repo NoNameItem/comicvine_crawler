@@ -103,7 +103,7 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429, 420]
-RETRY_TIMES = 20
+RETRY_TIMES = 60
 
 API_KEY = env("COMICVINE_API_KEY", default="")
 MONGO_URL = env("SCRAPY_MONGO_URL", default="")
