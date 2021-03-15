@@ -17,4 +17,4 @@ class PeopleSpider(BaseSpider):
                        "api_key={api_key}"
     name = "comicvine_people"
     # Optimize field list
-    DETAIL_FIELD_LIST = "id,name,aliases,deck,description,image,birth,country,death,hometown"
+    DETAIL_FIELD_LIST = "id,api_detail_url,name,aliases,deck,description,image,birth,country,death,hometown"
