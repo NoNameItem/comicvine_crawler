@@ -16,3 +16,4 @@ class ObjectsSpider(BaseSpider):
                        "limit={limit}&" \
                        "api_key={api_key}"
     name = "comicvine_objects"
+    DETAIL_FIELD_LIST = "id,api_detail_url,site_detail_url,name,aliases,deck,description,image,first_appeared_in_issue,start_year"

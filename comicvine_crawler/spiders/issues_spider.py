@@ -16,3 +16,4 @@ class IssuesSpider(BaseSpider):
                        "limit={limit}&" \
                        "api_key={api_key}"
     name = "comicvine_issues"
+    DETAIL_FIELD_LIST = "id,api_detail_url,site_detail_url,name,aliases,deck,description,image,issue_number,cover_date,store_date,character_credits,character_died_in,concept_credits,location_credits,object_credits,person_credits,story_arc_credits,team_credits,team_disbanded_in,volume"
