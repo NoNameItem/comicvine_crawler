@@ -47,7 +47,7 @@ class BaseSpider(scrapy.Spider):
             spider_info = mongo_db.spider_info.find_one({"name": spider.name})
             spider.logger.info("Spider info: " + str(spider_info))
             if spider_info:
-                start_date = str(spider_info.get("last_run_dttm", datetime.datetime.min))
+                start_date = str(spider_info.get("last_run_dttm", datetime.datetime.min + datetime.timedelta(days=1)) - datetime.timedelta(days=1))
                 end_date = str(datetime.datetime.max)
                 spider.filters["date_last_updated"] = "{0}|{1}".format(start_date, end_date)
 
