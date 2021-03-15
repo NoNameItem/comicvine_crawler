@@ -16,4 +16,5 @@ class PeopleSpider(BaseSpider):
                        "limit={limit}&" \
                        "api_key={api_key}"
     name = "comicvine_people"
+    # Optimize field list
     DETAIL_FIELD_LIST = "id,name,aliases,deck,description,image,birth,country,death,hometown"
