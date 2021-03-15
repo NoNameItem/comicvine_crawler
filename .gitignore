@@ -1,7 +1,6 @@
 comicvine_crawler/.env_prod
 comicvine_crawler/.env_dev
 .idea
-/scrapinghub.yml
 comicvine_crawler/settings_prod.py
 /build/lib/comicvine_crawler/
 /project.egg-info/
